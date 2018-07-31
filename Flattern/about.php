@@ -1,3 +1,39 @@
+<?php
+
+$conn = new mysqli("localhost", "root", "", "data-pengunjung");
+if ($conn->connect_errno) {
+    echo die("Failed to connect to MySQL: " . $conn->connect_error);
+}
+
+$rows = array();
+$table = array();
+$table['cols'] = array(
+  //membuat label untuk nama nya, tipe string
+  array('label' => 'Kelas', 'type' => 'string'),
+  //membuat label untuk jumlah siswa, tipe harus number untuk kalkulasi persentasenya
+  array('label' => 'Jumlah siswa', 'type' => 'number')
+);
+ 
+//melakukan query ke database select
+$sql = $conn->query("SELECT * FROM kelas");
+//perulangan untuk menampilkan data dari database
+while($data = $sql->fetch_assoc()){
+  //membuat array
+  $temp = array();
+  //memasukkan data pertama yaitu nama kelasnya
+  $temp[] = array('v' => (string)$data['kelas']);
+  //memasukkan data kedua yaitu jumlah siswanya
+  $temp[] = array('v' => (int)$data['jumlah_siswa']);
+  //memasukkan data diatas ke dalam array $rows
+  $rows[] = array('c' => $temp);
+}
+ 
+//memasukkan array $rows dalam variabel $table
+$table['rows'] = $rows;
+//mengeluarkan data dengan json_encode. silahkan di echo kalau ingin menampilkan data nya
+$jsonTable = json_encode($table);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,6 +62,42 @@
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png" />
   <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png" />
   <link rel="shortcut icon" href="ico/favicon.png" />
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Element", "penjualan", { role: "style" } ],
+        ["2010", 150, "#b87333"],
+        ["2011", 200, "#b87333"],
+        ["2012", 300, "#b87333"],
+        ["2013", 210, "#b87333"],
+        ["2014", 250, "#b87333"],
+        ["2015", 300, "#b87333"],
+        ["2016", 150, "#b87333"]
+      ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+
+      var options = {
+        title: "Perkembangan perusahaan",
+        width: 600,
+        height: 400,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+      chart.draw(view, options);
+  }
+  </script>
 
   <!-- =======================================================
     Theme Name: Flattern
@@ -402,28 +474,10 @@
               </div>
             </div>
           </div>
+
           <div class="span6">
-            <h4>Our expertise</h4>
-            <label>Kinerja Karyawan:</label>
-            <div class="progress progress-info progress-striped active">
-              <div class="bar" style="width: 90%">
-              </div>
-            </div>
-            <label>Kinerja Tukang :</label>
-            <div class="progress progress-success progress-striped active">
-              <div class="bar" style="width: 100%">
-              </div>
-            </div>
-            <label>Keahlian Tukang :</label>
-            <div class="progress progress-warning progress-striped active">
-              <div class="bar" style="width: 80%">
-              </div>
-            </div>
-            <label>Keterampilan Tukang :</label>
-            <div class="progress progress-danger progress-striped active">
-              <div class="bar" style="width: 90%">
-              </div>
-            </div>
+<div id="columnchart_values" style="width: 700; height: 150;"></div>
+<p><a href="cetak.php">Cetak</a></p>
           </div>
         </div>
       </div>
