@@ -1,9 +1,30 @@
-<!DOCTYPE html>
+<?php
+include_once("config.php");
+
+if(isset($_POST['update']))
+{ 
+
+  $result1 = mysqli_query($mysqli, "SELECT * FROM pengunjung WHERE email='id3'");
+  $user_data = mysqli_fetch_array($result1);
+
+  $id3 = $_POST['id4'];
+  $name=$_POST['name'];
+  $phone=$_POST['phone'];
+  $birthday=$_POST['birthday'];
+  $address=$_POST['address'];
+
+  $result = mysqli_query($mysqli, "UPDATE pengunjung SET name='$name',phone='$phone',birthday='$birthday',address='$address' WHERE email='$id3'");
+
+  header("Location: result-update.php");
+}
+?>
+
+    <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
-  <title>CV.Tiga Putra Petir</title>
+  <title>Flattern - Flat and trendy bootstrap site template</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="" />
   <meta name="author" content="" />
@@ -41,9 +62,9 @@
         <div class="row">
           <div class="span12">
             <ul>
-              <li><strong>CV. Tiga Putra Petir <strong></li>
-              <li>Main office: Yos Sudarso, Rumbai.134</li>
-              <li>Call us <i class="icon-phone"></i> 081277923568 </li>
+              <li><strong>We are available for any custom works this month</strong></li>
+              <li>Main office: Springville center X264, Park Ave S.01</li>
+              <li>Call us <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891</li>
             </ul>
           </div>
         </div>
@@ -61,10 +82,28 @@
         <div class="row nomargin">
           <div class="span12">
             <div class="headnav">
-              <ul>
-                <li><a href="#mySignup" data-toggle="modal"><i class="icon-user"></i> Sign up</a></li>
-                <li><a href="#mySignin" data-toggle="modal">Sign in</a></li>
-              </ul>
+              <?php
+require_once __DIR__.'/vendor/autoload.php';
+  
+session_start();
+  
+if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+  $profile = $_SESSION['access_profile'];
+  echo "<div class=\"dropdown-x\">
+          <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
+  echo "Hai,({$profile['emails']['0']['value']})
+          <div id=\"myDropdown\" class=\"dropdown-content\">
+            <a href=\"#home\">Edit</a>
+            <a href=\"logout.php\">Logout</a>
+            </div>
+          </div>";
+} else {
+  echo "<ul>
+                <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
+                <li><a href='#mySignin' data-toggle='modal'>Sign in</a></li>
+              </ul>";
+}
+?>
             </div>
             <!-- Signup Modal -->
             <div id="mySignup" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySignupModalLabel" aria-hidden="true">
@@ -167,8 +206,8 @@
         <div class="row">
           <div class="span4">
             <div class="logo">
-              <a href="index.html"><img src="foto/logo.png" alt="" class="logo" /></a>
-              
+              <a href="index.html"><img src="img/logo.png" alt="" class="logo" /></a>
+              <h1>Flat and trendy bootstrap template</h1>
             </div>
           </div>
           <div class="span8">
@@ -179,27 +218,61 @@
                     <li class="dropdown">
                       <a href="index.html">Home <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        
+                        <li><a href="index-alt2.html">Homepage 2</a></li>
+                        <li><a href="index-alt3.html">Homepage 3</a></li>
                       </ul>
                     </li>
                     <li class="dropdown">
-                      <a href="#">Product <i class="icon-angle-down"></i></a>
+                      <a href="#">Features <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="typography.html">Pesan Material Bangunan</a></li>
-                        <li><a href="table.html">Sewa Tukang Profesional</a></li>
-                        
-                        
+                        <li><a href="typography.html">Typography</a></li>
+                        <li><a href="table.html">Table</a></li>
+                        <li><a href="components.html">Components</a></li>
+                        <li><a href="animations.html">56 Animations</a></li>
+                        <li><a href="icons.html">Icons</a></li>
+                        <li><a href="icon-variations.html">Icon variations</a></li>
+                        <li class="dropdown"><a href="#">3 Sliders <i class="icon-angle-right"></i></a>
+                          <ul class="dropdown-menu sub-menu-level1">
+                            <li><a href="index.html">Nivo slider</a></li>
+                            <li><a href="index-alt2.html">Slit slider</a></li>
+                            <li><a href="index-alt3.html">Parallax slider</a></li>
+                          </ul>
+                        </li>
                       </ul>
                     </li>
                     <li class="dropdown">
-                      <a href="#">About <i class="icon-angle-down"></i></a>
+                      <a href="#">Pages <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="about.html">Profile Perusahaan</a></li>
-                        
+                        <li><a href="about.html">About us</a></li>
+                        <li><a href="pricingbox.html">Pricing boxes</a></li>
+                        <li><a href="testimonials.html">Testimonials</a></li>
+                        <li><a href="404.html">404</a></li>
                       </ul>
                     </li>
-                    <li>
-                      <a href="contact.html">Contact </a>
+                    <li class="dropdown">
+                      <a href="#">Portfolio <i class="icon-angle-down"></i></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="portfolio-2cols.html">Portfolio 2 columns</a></li>
+                        <li><a href="portfolio-3cols.html">Portfolio 3 columns</a></li>
+                        <li><a href="portfolio-4cols.html">Portfolio 4 columns</a></li>
+                        <li><a href="portfolio-detail.html">Portfolio detail</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#">Blog <i class="icon-angle-down"></i></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="blog-left-sidebar.html">Blog left sidebar</a></li>
+                        <li><a href="blog-right-sidebar.html">Blog right sidebar</a></li>
+                        <li><a href="post-left-sidebar.html">Post left sidebar</a></li>
+                        <li><a href="post-right-sidebar.html">Post right sidebar</a></li>
+                      </ul>
+                    </li>
+                    <li class="active">
+                      <a href="contact.php">Profile </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
               <!-- end navigation -->
             </div>
           </div>
@@ -212,90 +285,62 @@
         <div class="row">
           <div class="span4">
             <div class="inner-heading">
-              <h2>List Tukang</h2>
+              <h2>Profile</h2>
             </div>
           </div>
           <div class="span8">
             <ul class="breadcrumb">
-              <li><a href="index.html"><i class="icon-home"></i></a><i class="icon-angle-right"></i></li>
-              <li><a href="#">Sewa Tukang Profesional</a><i class="icon-angle-right"></i></li>
-              
+              <li><a href="index.php"><i class="icon-home"></i></a><i class="icon-angle-right"></i></li>
+              <li class="active">Profile</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
     <section id="content">
+
       <div class="container">
-          <div class="span6">
-            <h4>Gaji Perbulan</h4>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>
-                    No
-                  </th>
-                  <th>
-                    Tim
-                  </th>
-                  <th>
-                    Gaji Per-Bulan
-                  </th>
-                  <th>
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="success">
-                  <td>
-                    1
-                  </td>
-                  <td>
-                    Evos
-                  </td>
-                  <td>
-                    Rp.60.000.000
-                  </td>
-                  <td>
-                    Diterima
-                  </td>
-                </tr>
-                <tr class="error">
-                  <td>
-                    2
-                  </td>
-                  <td>
-                    Navi
-                  </td>
-                  <td>
-                    Rp.50.000.000
-                  </td>
-                  <td>
-                    Gagal
-                  </td>
-                </tr>
-                <tr class="warning">
-                  <td>
-                    3
-                  </td>
-                  <td>
-                    FF
-                  </td>
-                  <td>
-                    Rp.70.000.000
-                  </td>
-                  <td>
-                    Pending
-                  </td>
-                </tr>
-               
+        <div class="row">
+          <div class="span12">
+            <h4>Update your <strong>profile</strong></h4>
 
-                </tr>
-              </tbody>
-            </table>
+            <?php
+
+            $id = $_GET['id'];
+            $result = mysqli_query($mysqli, "SELECT * FROM pengunjung WHERE email='$id'");
+            $user_data = mysqli_fetch_array($result);
+            ?>
+
+            <form name="update-data" action="update-profile.php" method="post">
+                  <p><strong>Name</strong></p>
+                  <input type="text" name="name" placeholder="Your Name" />
+
+                </div>
+                <div class="span4 ">
+                  <p><strong>Phone</strong></p>
+                  <input type="text"name="phone" placeholder="Your Phone Number">
+                  <div class="validation"></div>
+
+                </div>
+                <div class="span4 form-group">
+                  <p><strong>Birthday</strong></p>
+                  <input type="text"name="birthday"placeholder="Your Birthday" data-msg="Please fill the black space" />
+                  <div class="validation"></div>
+
+                </div>
+                <div class="span12 margintop10 form-group">
+                  <p><strong>Address</strong></p>
+                  <input type="text" name="address" placeholder="Your Address" data-msg="Please fill the black space" />
+                  <div class="validation"></div>
+
+                  <input type="hidden" name="id4" value="<?php echo $_GET['id'];?>">
+                  <p class="text-center">
+                    <input class="btn btn-large btn-theme margintop10" type="submit" name="update"/>
+                  </p>
+                </div>
+            </form>
+          </div>
         </div>
-
       </div>
     </section>
     <footer>
@@ -303,23 +348,25 @@
         <div class="row">
           <div class="span3">
             <div class="widget">
-              <h5 class="widgetheading">Quotes Perusahaan</h5>
+              <h5 class="widgetheading">Browse pages</h5>
               <ul class="link-list">
-                <li></li>
-                <li>In order to succeed,</a></li>
-                <li>your desire for success</a></li>
-                <li>should be greater </a></li>
-                <li>than your fear of failure.</a></li>
+                <li><a href="#">About our company</a></li>
+                <li><a href="#">Our services</a></li>
+                <li><a href="#">Meet our team</a></li>
+                <li><a href="#">Explore our portfolio</a></li>
+                <li><a href="#">Get in touch with us</a></li>
               </ul>
             </div>
           </div>
           <div class="span3">
             <div class="widget">
-              <h5 class="widgetheading">Chief Executive Officer</h5>
+              <h5 class="widgetheading">Important stuff</h5>
               <ul class="link-list">
-                <li>Anthonio Putra</li>
-                <li>Aviecenna Yudhistira</li>
-                <li>Iqbal Ibrahim</li>
+                <li><a href="#">Press release</a></li>
+                <li><a href="#">Terms and conditions</a></li>
+                <li><a href="#">Privacy policy</a></li>
+                <li><a href="#">Career center</a></li>
+                <li><a href="#">Flattern forum</a></li>
               </ul>
             </div>
           </div>
@@ -333,17 +380,17 @@
               </div>
             </div>
           </div>
-           <div class="span3">
+          <div class="span3">
             <div class="widget">
               <h5 class="widgetheading">Get in touch with us</h5>
               <address>
-                <strong>3 Putra Petir, CV. Tiga Putra Petir</strong><br>
-                 Jl. Yos Sudarso, Rumbai, 134<br>
-                 Rumbai 16425 Indonesia
-              </address>
+								<strong>Flattern studio, Pte Ltd</strong><br>
+								 Springville center X264, Park Ave S.01<br>
+								 Semarang 16425 Indonesia
+					 		</address>
               <p>
-                <i class="icon-phone"></i> 081277923568 <br>
-                <i class="icon-envelope-alt"></i> tigaputrapetir@gmail.com
+                <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891 <br>
+                <i class="icon-envelope-alt"></i> email@domainname.com
               </p>
             </div>
           </div>
@@ -401,6 +448,10 @@
   <script src="js/jquery.ba-cond.min.js"></script>
   <script src="js/jquery.slitslider.js"></script>
   <script src="js/animate.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8HeI8o-c1NppZA-92oYlXakhDPYR7XMY"></script>
+
+  <!-- Contact Form JavaScript File -->
+  <script src="contactform/contactform.js"></script>
 
   <!-- Template Custom JavaScript File -->
   <script src="js/custom.js"></script>

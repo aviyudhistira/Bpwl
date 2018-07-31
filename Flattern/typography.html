@@ -61,10 +61,29 @@
         <div class="row nomargin">
           <div class="span12">
             <div class="headnav">
-              <ul>
-                <li><a href="#mySignup" data-toggle="modal"><i class="icon-user"></i> Sign up</a></li>
-                <li><a href="#mySignin" data-toggle="modal">Sign in</a></li>
-              </ul>
+              <?php
+                require_once __DIR__.'/vendor/autoload.php';
+                include_once("config.php");
+                $result = mysqli_query($mysqli, "SELECT * FROM pengunjung");
+                $user_data = mysqli_fetch_array($result);
+  
+                session_start();
+  
+                if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+                  $profile = $_SESSION['access_profile'];
+                  echo "<div class=\"dropdown-x\">
+                        <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
+                  echo "Hai,({$profile['emails']['0']['value']})<br>
+                          <a href=\"profile.php?id2=$user_data[email]\">Profile</a>
+                          <a href=\"logout.php\">Logout</a>
+                        </div>";
+                } else {
+                  echo "<ul>
+                          <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
+                          <li><a href='#mySignin' data-toggle='modal'>Sign in</a></li>
+                        </ul>";
+                }
+              ?>
             </div>
             <!-- Signup Modal -->
             <div id="mySignup" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySignupModalLabel" aria-hidden="true">

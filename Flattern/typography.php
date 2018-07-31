@@ -61,10 +61,29 @@
         <div class="row nomargin">
           <div class="span12">
             <div class="headnav">
-              <ul>
-                <li><a href="#mySignup" data-toggle="modal"><i class="icon-user"></i> Sign up</a></li>
-                <li><a href="#mySignin" data-toggle="modal">Sign in</a></li>
-              </ul>
+              <?php
+                require_once __DIR__.'/vendor/autoload.php';
+                include_once("config.php");
+                $result = mysqli_query($mysqli, "SELECT * FROM pengunjung");
+                $user_data = mysqli_fetch_array($result);
+  
+                session_start();
+  
+                if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+                  $profile = $_SESSION['access_profile'];
+                  echo "<div class=\"dropdown-x\">
+                        <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
+                  echo "Hai,({$profile['emails']['0']['value']})<br>
+                          <a href=\"profile.php?id2=$user_data[email]\">Profile</a>
+                          <a href=\"logout.php\">Logout</a>
+                        </div>";
+                } else {
+                  echo "<ul>
+                          <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
+                          <li><a href='#mySignin' data-toggle='modal'>Sign in</a></li>
+                        </ul>";
+                }
+              ?>
             </div>
             <!-- Signup Modal -->
             <div id="mySignup" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySignupModalLabel" aria-hidden="true">
@@ -168,7 +187,7 @@
           <div class="span4">
             <div class="logo">
               <a href="index.html"><img src="foto/logo.png" alt="" class="logo" /></a>
-              
+            
             </div>
           </div>
           <div class="span8">
@@ -177,7 +196,7 @@
                 <nav>
                   <ul class="nav topnav">
                     <li class="dropdown">
-                      <a href="index.html">Home <i class="icon-angle-down"></i></a>
+                      <a href="index.php">Home <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
                         
                       </ul>
@@ -185,8 +204,8 @@
                     <li class="dropdown">
                       <a href="#">Product <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="typography.html">Pesan Material Bangunan</a></li>
-                        <li><a href="table.html">Sewa Tukang Profesional</a></li>
+                        <li><a href="typography.php">Pesan Material Bangunan</a></li>
+                        <li><a href="table.php">Sewa Tukang Profesional</a></li>
                         
                         
                       </ul>
@@ -194,12 +213,16 @@
                     <li class="dropdown">
                       <a href="#">About <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="about.html">Profile Perusahaan</a></li>
+                        <li><a href="about.php">Profile Perusahaan</a></li>
                         
                       </ul>
                     </li>
                     <li>
-                      <a href="contact.html">Contact </a>
+                      <a href="contact.php">Contact </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
               <!-- end navigation -->
             </div>
           </div>
@@ -212,13 +235,13 @@
         <div class="row">
           <div class="span4">
             <div class="inner-heading">
-              <h2>List Tukang</h2>
+              <h2>Materials</h2>
             </div>
           </div>
           <div class="span8">
             <ul class="breadcrumb">
               <li><a href="index.html"><i class="icon-home"></i></a><i class="icon-angle-right"></i></li>
-              <li><a href="#">Sewa Tukang Profesional</a><i class="icon-angle-right"></i></li>
+              <li><a href="#">Material Bangunan Dan Desain</a><i class="icon-angle-right"></i></li>
               
             </ul>
           </div>
@@ -227,78 +250,87 @@
     </section>
     <section id="content">
       <div class="container">
-          <div class="span6">
-            <h4>Gaji Perbulan</h4>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>
-                    No
-                  </th>
-                  <th>
-                    Tim
-                  </th>
-                  <th>
-                    Gaji Per-Bulan
-                  </th>
-                  <th>
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="success">
-                  <td>
-                    1
-                  </td>
-                  <td>
-                    Evos
-                  </td>
-                  <td>
-                    Rp.60.000.000
-                  </td>
-                  <td>
-                    Diterima
-                  </td>
-                </tr>
-                <tr class="error">
-                  <td>
-                    2
-                  </td>
-                  <td>
-                    Navi
-                  </td>
-                  <td>
-                    Rp.50.000.000
-                  </td>
-                  <td>
-                    Gagal
-                  </td>
-                </tr>
-                <tr class="warning">
-                  <td>
-                    3
-                  </td>
-                  <td>
-                    FF
-                  </td>
-                  <td>
-                    Rp.70.000.000
-                  </td>
-                  <td>
-                    Pending
-                  </td>
-                </tr>
-               
-
-                </tr>
-              </tbody>
-            </table>
+        <div class="row">
+          <div class="span12">
+            <h4>Contoh Material Yang <strong>Kami Sajikan</strong></h4>
+          </div>
+          <div class="span4">
+            <div class="pricing-box-alt">
+              <div class="pricing-heading">
+                <h3><strong>Standart</strong></h3>
+              </div>
+              <div class="pricing-terms">
+                <h6>Rp.100.000.000</h6>
+              </div>
+              <div class="pricing-content">
+                <ul>
+                  <li><i class="icon-ok"></i> 20 Sak Semen</li>
+                  <li><i class="icon-ok"></i> 500 Lembar Seng</li>
+                  <li><i class="icon-ok"></i> 100 Kaleng Cat</li>
+                  <li><i class="icon-ok"></i> Komsumsi Tukang</li>
+                  <li><i class="icon-ok"></i> Bonus Tukang</li>
+                </ul>
+              </div>
+              <div class="pricing-action">
+                <a href="cetak.php" class="btn btn-medium btn-theme"><i class="icon-bolt"></i> Beli</a>
+              </div>
+            </div>
+          </div>
+          <div class="span4">
+            <div class="pricing-box-alt special">
+              <div class="pricing-heading">
+                <h3><strong>Berkualitas Tinggi</strong></h3>
+              </div>
+              <div class="pricing-terms">
+                <h6>Rp.500.000.000</h6>
+              </div>
+              <div class="pricing-content">
+                <ul>
+                  <li><i class="icon-ok"></i> 2000 Sak Semen</li>
+                  <li><i class="icon-ok"></i> 50000 Lembar Seng</li>
+                  <li><i class="icon-ok"></i> 10000 Kaleng Cat</li>
+                  <li><i class="icon-ok"></i> Komsumsi Tukang</li>
+                  <li><i class="icon-ok"></i> Bonus Tukang</li>
+                </ul>
+              </div>
+              <div class="pricing-action">
+                <a href="#" class="btn btn-medium btn-theme"><i class="icon-bolt"></i> Beli</a>
+              </div>
+            </div>
+          </div>
+          <div class="span4">
+            <div class="pricing-box-alt">
+              <div class="pricing-heading">
+                <h3><strong>Menengah</strong></h3>
+              </div>
+              <div class="pricing-terms">
+                <h6>Rp.200.000.000</h6>
+              </div>
+              <div class="pricing-content">
+                <ul>
+                  <li><i class="icon-ok"></i> 200 Sak Semen</li>
+                  <li><i class="icon-ok"></i> 5000 Lembar Seng</li>
+                  <li><i class="icon-ok"></i> 1000 Kaleng Cat</li>
+                  <li><i class="icon-ok"></i> Komsumsi Tukang</li>
+                  <li><i class="icon-ok"></i> Bonus Tukang</li>
+                </ul>
+              </div>
+              <div class="pricing-action">
+                <a href="#" class="btn btn-medium btn-theme"><i class="icon-bolt"></i> Beli</a>
+              </div>
+            </div>
+          </div>
         </div>
-
-      </div>
-    </section>
-    <footer>
+        <!-- divider -->
+        <div class="row">
+          <div class="span12">
+            <div class="solidline">
+            </div>
+          </div>
+        </div>
+        <!-- end divider -->
+        
+   <footer>
       <div class="container">
         <div class="row">
           <div class="span3">
@@ -333,7 +365,7 @@
               </div>
             </div>
           </div>
-           <div class="span3">
+          <div class="span3">
             <div class="widget">
               <h5 class="widgetheading">Get in touch with us</h5>
               <address>
@@ -355,7 +387,7 @@
             <div class="span6">
               <div class="copyright">
                 <p>
-                  <span>&copy; Flattern - All right reserved.</span>
+                  <span>&copy; 3PP - All right reserved.</span>
                 </p>
                 <div class="credits">
                   <!--
@@ -364,7 +396,7 @@
                     Licensing information: https://bootstrapmade.com/license/
                     Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Flattern
                   -->
-                  Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                  Designed by <a href="https://bootstrapmade.com/">3PP</a>
                 </div>
               </div>
             </div>
@@ -406,5 +438,4 @@
   <script src="js/custom.js"></script>
 
 </body>
-
 </html>

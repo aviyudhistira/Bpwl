@@ -24,6 +24,31 @@
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png" />
   <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png" />
   <link rel="shortcut icon" href="ico/favicon.png" />
+  <script type="text/javascript" src="jquery-1.2.3.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+ 
+  $().ajaxStart(function() {
+    $('#loading').show();
+    $('#result').hide();
+  }).ajaxStop(function() {
+    $('#loading').hide();
+    $('#result').fadeIn('slow');
+  });
+ 
+  $('#myForm').submit(function() {
+    $.ajax({
+      type: 'POST',
+      url: $(this).attr('action'),
+      data: $(this).serialize(),
+      success: function(data) {
+        $('#result').html(data);
+      }
+    })
+    return false;
+  });
+})
+</script>
 
   <!-- =======================================================
     Theme Name: Flattern
@@ -61,10 +86,31 @@
         <div class="row nomargin">
           <div class="span12">
             <div class="headnav">
-              <ul>
-                <li><a href="#mySignup" data-toggle="modal"><i class="icon-user"></i> Sign up</a></li>
-                <li><a href="#mySignin" data-toggle="modal">Sign in</a></li>
-              </ul>
+              <?php
+                require_once __DIR__.'/vendor/autoload.php';
+                include_once("config.php");
+                $result = mysqli_query($mysqli, "SELECT * FROM pengunjung");
+                $user_data = mysqli_fetch_array($result);
+  
+                session_start();
+  
+                if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+                  $profile = $_SESSION['access_profile'];
+                  echo "<div class=\"dropdown-x\">
+                        <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
+                  echo "Hai,({$profile['emails']['0']['value']})
+                        <div id=\"myDropdown\" class=\"dropdown-content\">
+                          <a href=\"profile.php?id2=$user_data[email]\">Profile</a>
+                          <a href=\"logout.php\">Logout</a>
+                        </div>
+                        </div>";
+                } else {
+                  echo "<ul>
+                          <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
+                          <li><a href='#mySignin' data-toggle='modal'>Sign in</a></li>
+                        </ul>";
+                }
+              ?>
             </div>
             <!-- Signup Modal -->
             <div id="mySignup" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySignupModalLabel" aria-hidden="true">
@@ -97,7 +143,8 @@
                       <button type="submit" class="btn">Sign up</button>
                     </div>
                     <p class="aligncenter margintop20">
-                      Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a>
+                      Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a><br>
+                      Log in via <a href="auth.php">Google</a><a href="auth.php"><img src="img/google-logo.png" alt="Google" width="30" height="30"></a>
                     </p>
                   </div>
                 </form>
@@ -167,7 +214,7 @@
         <div class="row">
           <div class="span4">
             <div class="logo">
-              <a href="index.html"><img src="foto/logo.png" alt="" class="logo" /></a>
+              <a href="index.php"><img src="foto/logo.png" alt="" class="logo" /></a>
               
             </div>
           </div>
@@ -177,7 +224,7 @@
                 <nav>
                   <ul class="nav topnav">
                     <li class="dropdown">
-                      <a href="index.html">Home <i class="icon-angle-down"></i></a>
+                      <a href="index.php">Home <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
                         
                       </ul>
@@ -185,8 +232,8 @@
                     <li class="dropdown">
                       <a href="#">Product <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="typography.html">Pesan Material Bangunan</a></li>
-                        <li><a href="table.html">Sewa Tukang Profesional</a></li>
+                        <li><a href="typography.php">Pesan Material Bangunan</a></li>
+                        <li><a href="table.php">Sewa Tukang Profesional</a></li>
                         
                         
                       </ul>
@@ -194,12 +241,12 @@
                     <li class="dropdown">
                       <a href="#">About <i class="icon-angle-down"></i></a>
                       <ul class="dropdown-menu">
-                        <li><a href="about.html">Profile Perusahaan</a></li>
+                        <li><a href="about.php">Profile Perusahaan</a></li>
                         
                       </ul>
                     </li>
                     <li>
-                      <a href="contact.html">Contact </a>
+                      <a href="contact.php">Contact </a>
               <!-- end navigation -->
             </div>
           </div>
@@ -227,74 +274,16 @@
     </section>
     <section id="content">
       <div class="container">
-          <div class="span6">
-            <h4>Gaji Perbulan</h4>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>
-                    No
-                  </th>
-                  <th>
-                    Tim
-                  </th>
-                  <th>
-                    Gaji Per-Bulan
-                  </th>
-                  <th>
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="success">
-                  <td>
-                    1
-                  </td>
-                  <td>
-                    Evos
-                  </td>
-                  <td>
-                    Rp.60.000.000
-                  </td>
-                  <td>
-                    Diterima
-                  </td>
-                </tr>
-                <tr class="error">
-                  <td>
-                    2
-                  </td>
-                  <td>
-                    Navi
-                  </td>
-                  <td>
-                    Rp.50.000.000
-                  </td>
-                  <td>
-                    Gagal
-                  </td>
-                </tr>
-                <tr class="warning">
-                  <td>
-                    3
-                  </td>
-                  <td>
-                    FF
-                  </td>
-                  <td>
-                    Rp.70.000.000
-                  </td>
-                  <td>
-                    Pending
-                  </td>
-                </tr>
-               
 
-                </tr>
-              </tbody>
-            </table>
-        </div>
+<div id="loading" style="display:none;">loading...</div>
+<div id="result" style="display:none;"></div>
+<form id="myForm" method="post" action="data.php">
+  <button class="btn btn-large btn-theme margintop10" type="submit">Tim Tukang</button>
+</form>
+
+<form id="myForm" method="post" action="data2.php">
+    <button class="btn btn-large btn-theme margintop10" type="submit">Gaji Perbulan</button>
+</form>
 
       </div>
     </section>
