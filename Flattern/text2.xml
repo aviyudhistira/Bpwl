@@ -1,0 +1,73 @@
+<text>
+  <isi>
+
+          <div class="span6">
+            <h4>Gaji Perbulan</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>
+                    No
+                  </th>
+                  <th>
+                    Tim
+                  </th>
+                  <th>
+                    Gaji Per-Bulan
+                  </th>
+                  <th>
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="success">
+                  <td>
+                    1
+                  </td>
+                  <td>
+                    Evos
+                  </td>
+                  <td>
+                    Rp.60.000.000
+                  </td>
+                  <td>
+                    Diterima
+                  </td>
+                </tr>
+                <tr class="error">
+                  <td>
+                    2
+                  </td>
+                  <td>
+                    Navi
+                  </td>
+                  <td>
+                    Rp.50.000.000
+                  </td>
+                  <td>
+                    Gagal
+                  </td>
+                </tr>
+                <tr class="warning">
+                  <td>
+                    3
+                  </td>
+                  <td>
+                    FF
+                  </td>
+                  <td>
+                    Rp.70.000.000
+                  </td>
+                  <td>
+                    Pending
+                  </td>
+                </tr>
+               
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </isi>
+      </text>

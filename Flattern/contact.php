@@ -1,30 +1,9 @@
-<?php
-include_once("config.php");
-
-if(isset($_POST['update']))
-{ 
-
-  $result1 = mysqli_query($mysqli, "SELECT * FROM pengunjung WHERE email='id3'");
-  $user_data = mysqli_fetch_array($result1);
-
-  $id3 = $_POST['id4'];
-  $name=$_POST['name'];
-  $phone=$_POST['phone'];
-  $birthday=$_POST['birthday'];
-  $address=$_POST['address'];
-
-  $result = mysqli_query($mysqli, "UPDATE pengunjung SET name='$name',phone='$phone',birthday='$birthday',address='$address' WHERE email='$id3'");
-
-  header("Location: result-update.php");
-}
-?>
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
-  <title>Flattern - Flat and trendy bootstrap site template</title>
+  <title>CV.Tiga Putra Petir</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="" />
   <meta name="author" content="" />
@@ -62,9 +41,9 @@ if(isset($_POST['update']))
         <div class="row">
           <div class="span12">
             <ul>
-              <li><strong>We are available for any custom works this month</strong></li>
-              <li>Main office: Springville center X264, Park Ave S.01</li>
-              <li>Call us <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891</li>
+              <li><strong>CV. Tiga Putra Petir </strong></li>
+              <li>Main office: Yos Sudarso, Rumbai.134</li>
+              <li>Call us <i class="icon-phone"></i> 081277923568 </li>
             </ul>
           </div>
         </div>
@@ -83,24 +62,27 @@ if(isset($_POST['update']))
           <div class="span12">
             <div class="headnav">
               <?php
-require_once __DIR__.'/vendor/autoload.php';
+                require_once __DIR__.'/vendor/autoload.php';
+                include_once("config.php");
+                $result = mysqli_query($mysqli, "SELECT * FROM pengunjung");
+                $user_data = mysqli_fetch_array($result);
   
-session_start();
+                session_start();
   
-if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
-  $profile = $_SESSION['access_profile'];
-  echo "
-          <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
-  echo "Hai,({$profile['emails']['0']['value']})<br>
-            <a href=\"#home\">Edit</a>
-            <a href=\"logout.php\">Logout</a>";
-} else {
-  echo "<ul>
-                <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
-                <li><a href='#mySignin' data-toggle='modal'>Sign in</a></li>
-              </ul>";
-}
-?>
+                if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+                  $profile = $_SESSION['access_profile'];
+                  echo "
+                        <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
+                  echo "Hai,({$profile['emails']['0']['value']})
+                          <a href=\"profile.php?id2=$user_data[email]\">Profile</a>
+                          <a href=\"logout.php\">Logout</a>";
+                } else {
+                  echo "<ul>
+                          <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
+                          <li><a href='#mySignin' data-toggle='modal'>Sign in</a></li>
+                        </ul>";
+                }
+              ?>
             </div>
             <!-- Signup Modal -->
             <div id="mySignup" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySignupModalLabel" aria-hidden="true">
@@ -133,7 +115,8 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
                       <button type="submit" class="btn">Sign up</button>
                     </div>
                     <p class="aligncenter margintop20">
-                      Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a>
+                      Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a><br>
+                      Log in via <a href="auth.php">Google</a><a href="auth.php"><img src="foto/google-logo.png" alt="Google" width="30" height="30"></a>
                     </p>
                   </div>
                 </form>
@@ -165,7 +148,8 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
                       <button type="submit" class="btn">Sign in</button>
                     </div>
                     <p class="aligncenter margintop20">
-                      Forgot password? <a href="#myReset" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Reset</a>
+                      Forgot password? <a href="#myReset" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Reset</a><br>
+                      Log in via <a href="auth.php">Google</a><a href="auth.php"><img src="foto/google-logo.png" alt="Google" width="30" height="30"></a>
                     </p>
                   </div>
                 </form>
@@ -203,7 +187,7 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
         <div class="row">
           <div class="span4">
             <div class="logo">
-              <a href="index.php"><img src="foto/logo.png" alt="" class="logo" width=250px /></a>
+              <a href="index.php"><img src="foto/logo.png" alt="" class="logo" width=250px width=250px /></a>
               
             </div>
           </div>
@@ -240,101 +224,114 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
                     </li>
                   </ul>
                 </nav>
-              </div>
-              <!-- end navigation -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+              </div>    
+            </header>
     <!-- end header -->
     <section id="inner-headline">
       <div class="container">
         <div class="row">
           <div class="span4">
             <div class="inner-heading">
-              <h2>Profile</h2>
+              <h2>Contact</h2>
             </div>
           </div>
           <div class="span8">
             <ul class="breadcrumb">
-              <li><a href="index.php"><i class="icon-home"></i></a><i class="icon-angle-right"></i></li>
-              <li class="active">Profile</li>
+              <li><a href="#"><i class="icon-home"></i></a><i class="icon-angle-right"></i></li>
+              <li class="active">Contact</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
     <section id="content">
+     <img src="foto/maps.png">
 
-      <div class="container">
-        <div class="row">
-          <div class="span12">
-            <h4>Update your <strong>profile</strong></h4>
 
-            <?php
+              <?php
+                require_once __DIR__.'/vendor/autoload.php';
+                include_once("config.php");
+                $result = mysqli_query($mysqli, "SELECT * FROM pengunjung");
+                $user_data = mysqli_fetch_array($result);
+  
+  
+                if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+                  $profile = $_SESSION['access_profile'];
+echo "       <div class=\"container\">
+        <div class=\"row\">
+          <div class\"span12\">
+            <h4>Hubungi Kami <strong>Disini</strong></h4>
 
-            $id = $_GET['id'];
-            $result = mysqli_query($mysqli, "SELECT * FROM pengunjung WHERE email='$id'");
-            $user_data = mysqli_fetch_array($result);
-            ?>
+            <form action=\"\" method=\"post\" role=\"form\" class=\"contactForm\">
+              <div id=\"sendmessage\">Your message has been sent. Thank you!</div>
+              <div id=\"errormessage\"></div>
 
-            <form name="update-data" action="update-profile.php" method="post">
+              <div class=\"row\">
+                <div class=\"span4 form-group\">
                   <p><strong>Name</strong></p>
-                  <input type="text" name="name" placeholder="Your Name" />
-
+                  <input type=\"text\" name=\"name\" class=\"form-control\" id=\"name\" placeholder=\"Your Name\" data-rule=\"minlen:4\" data-msg=\"Please enter at least 4 chars\" value=".$user_data['name']." >
+                  <div class=\"validation\"></div><br>
                 </div>
-                <div class="span4 ">
-                  <p><strong>Phone</strong></p>
-                  <input type="text"name="phone" placeholder="Your Phone Number">
-                  <div class="validation"></div>
-
+                <div class=\"span4 form-group\">
+                  <p><strong>Email</strong></p>
+                  <input type=\"email\" class=\"form-control\" name=\"email\" id=\"email\" placeholder=\"Your Email\" data-rule=\"email\" data-msg=\"Please enter a valid email\" value=".$user_data['email'].">
+                  <div class=\"validation\"></div>
                 </div>
-                <div class="span4 form-group">
-                  <p><strong>Birthday</strong></p>
-                  <input type="text"name="birthday"placeholder="Your Birthday" data-msg="Please fill the black space" />
-                  <div class="validation"></div>
-
+                <div class=\"span4 form-group\">
+                  <p><strong>Subject</strong></p>
+                  <input type=\"text\" class=\"form-control\" name=\"subject\" id=\"subject\" placeholder=\"Your Subject\" data-rule=\"minlen:4\" data-msg=\"Please enter at least 8 chars of subject\" />
+                  <div class=\"validation\"></div>
                 </div>
-                <div class="span12 margintop10 form-group">
+                <div class=\"span12 margintop10 form-group\">
                   <p><strong>Address</strong></p>
-                  <input type="text" name="address" placeholder="Your Address" data-msg="Please fill the black space" />
-                  <div class="validation"></div>
-
-                  <input type="hidden" name="id4" value="<?php echo $_GET['id'];?>">
-                  <p class="text-center">
-                    <input class="btn btn-large btn-theme margintop10" type="submit" name="update"/>
+                  <textarea class=\"form-control\" name=\"message\" rows=\"12\" data-rule=\"required\" data-msg=\"Please write something for us\" placeholder=\"Your message\"></textarea>
+                  <div class=\"validation\"></div>
+                  <p class=\"text-center\">
+                    <button class=\"btn btn-large btn-theme margintop10\" type=\"submit\">Send</button>
                   </p>
                 </div>
+              </div>
             </form>
           </div>
         </div>
-      </div>
+      </div>";
+                } else {
+                  echo "<div class=\"container\">
+                  <div class=\"row\">
+                  <div class=\"span12\">
+                  <h4>Silahkan Sign Up atau Login terlebih dahulu</h4>
+                  <div class\"span4\">
+                    <a class=\"btn btn-large btn-theme margintop10\" href='#mySignup' data-toggle='modal'>Sign up</a>
+                    <a class=\"btn btn-large btn-theme margintop10\" href='#mySignin' data-toggle='modal'>Log in</a>
+                  </div>
+                  </div>
+                  </div> ";
+                }
+              ?>
+
     </section>
-    <footer>
+   <footer>
       <div class="container">
         <div class="row">
           <div class="span3">
             <div class="widget">
-              <h5 class="widgetheading">Browse pages</h5>
+              <h5 class="widgetheading">Quotes Perusahaan</h5>
               <ul class="link-list">
-                <li><a href="#">About our company</a></li>
-                <li><a href="#">Our services</a></li>
-                <li><a href="#">Meet our team</a></li>
-                <li><a href="#">Explore our portfolio</a></li>
-                <li><a href="#">Get in touch with us</a></li>
+                <li></li>
+                <li>In order to succeed,</a></li>
+                <li>your desire for success</a></li>
+                <li>should be greater </a></li>
+                <li>than your fear of failure.</a></li>
               </ul>
             </div>
           </div>
           <div class="span3">
             <div class="widget">
-              <h5 class="widgetheading">Important stuff</h5>
+              <h5 class="widgetheading">Chief Executive Officer</h5>
               <ul class="link-list">
-                <li><a href="#">Press release</a></li>
-                <li><a href="#">Terms and conditions</a></li>
-                <li><a href="#">Privacy policy</a></li>
-                <li><a href="#">Career center</a></li>
-                <li><a href="#">Flattern forum</a></li>
+                <li>Anthonio Putra</li>
+                <li>Aviecenna Yudhistira</li>
+                <li>Iqbal Ibrahim</li>
               </ul>
             </div>
           </div>
@@ -347,18 +344,17 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
               <div class="clear">
               </div>
             </div>
-          </div>
-          <div class="span3">
+           <div class="span3">
             <div class="widget">
               <h5 class="widgetheading">Get in touch with us</h5>
               <address>
-								<strong>Flattern studio, Pte Ltd</strong><br>
-								 Springville center X264, Park Ave S.01<br>
-								 Semarang 16425 Indonesia
-					 		</address>
+                <strong>3 Putra Petir, CV. Tiga Putra Petir</strong><br>
+                 Jl. Yos Sudarso, Rumbai, 134<br>
+                 Rumbai 16425 Indonesia
+              </address>
               <p>
-                <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891 <br>
-                <i class="icon-envelope-alt"></i> email@domainname.com
+                <i class="icon-phone"></i> 081277923568 <br>
+                <i class="icon-envelope-alt"></i> tigaputrapetir@gmail.com
               </p>
             </div>
           </div>

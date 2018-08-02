@@ -1,30 +1,9 @@
-<?php
-include_once("config.php");
-
-if(isset($_POST['update']))
-{ 
-
-  $result1 = mysqli_query($mysqli, "SELECT * FROM pengunjung WHERE email='id3'");
-  $user_data = mysqli_fetch_array($result1);
-
-  $id3 = $_POST['id4'];
-  $name=$_POST['name'];
-  $phone=$_POST['phone'];
-  $birthday=$_POST['birthday'];
-  $address=$_POST['address'];
-
-  $result = mysqli_query($mysqli, "UPDATE pengunjung SET name='$name',phone='$phone',birthday='$birthday',address='$address' WHERE email='$id3'");
-
-  header("Location: result-update.php");
-}
-?>
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
-  <title>Flattern - Flat and trendy bootstrap site template</title>
+  <title>CV.Tiga Putra Petir</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="" />
   <meta name="author" content="" />
@@ -39,12 +18,50 @@ if(isset($_POST['update']))
   <link href="css/style.css" rel="stylesheet" />
   <!-- Theme skin -->
   <link href="skins/default.css" rel="stylesheet" />
+  <!-- boxed bg -->
+  <link id="bodybg" href="bodybg/bg1.css" rel="stylesheet" type="text/css" />
   <!-- Fav and touch icons -->
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png" />
   <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png" />
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png" />
   <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png" />
   <link rel="shortcut icon" href="ico/favicon.png" />
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Element", "penjualan", { role: "style" } ],
+        ["2010", 150, "#b87333"],
+        ["2011", 200, "#b87333"],
+        ["2012", 300, "#b87333"],
+        ["2013", 210, "#b87333"],
+        ["2014", 250, "#b87333"],
+        ["2015", 300, "#b87333"],
+        ["2016", 150, "#b87333"]
+      ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+
+      var options = {
+        title: "Perkembangan perusahaan",
+        width: 600,
+        height: 400,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+      chart.draw(view, options);
+  }
+  </script>
 
   <!-- =======================================================
     Theme Name: Flattern
@@ -62,9 +79,9 @@ if(isset($_POST['update']))
         <div class="row">
           <div class="span12">
             <ul>
-              <li><strong>We are available for any custom works this month</strong></li>
-              <li>Main office: Springville center X264, Park Ave S.01</li>
-              <li>Call us <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891</li>
+              <li><strong>CV. Tiga Putra Petir </strong></li>
+              <li>Main office: Yos Sudarso, Rumbai.134</li>
+              <li>Call us <i class="icon-phone"></i> 081277923568 </li>
             </ul>
           </div>
         </div>
@@ -83,24 +100,27 @@ if(isset($_POST['update']))
           <div class="span12">
             <div class="headnav">
               <?php
-require_once __DIR__.'/vendor/autoload.php';
+                require_once __DIR__.'/vendor/autoload.php';
+                include_once("config.php");
+                $result = mysqli_query($mysqli, "SELECT * FROM pengunjung");
+                $user_data = mysqli_fetch_array($result);
   
-session_start();
+                session_start();
   
-if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
-  $profile = $_SESSION['access_profile'];
-  echo "
-          <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
-  echo "Hai,({$profile['emails']['0']['value']})<br>
-            <a href=\"#home\">Edit</a>
-            <a href=\"logout.php\">Logout</a>";
-} else {
-  echo "<ul>
-                <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
-                <li><a href='#mySignin' data-toggle='modal'>Sign in</a></li>
-              </ul>";
-}
-?>
+                if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+                  $profile = $_SESSION['access_profile'];
+                  echo "
+                        <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
+                  echo "Hai,({$profile['emails']['0']['value']})<br>
+                          <a href=\"profile.php?id2=$user_data[email]\">Profile</a>
+                          <a href=\"logout.php\">Logout</a>";
+                } else {
+                  echo "<ul>
+                          <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
+                          <li><a href='#mySignin' data-toggle='modal'>Sign in</a></li>
+                        </ul>";
+                }
+              ?>
             </div>
             <!-- Signup Modal -->
             <div id="mySignup" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySignupModalLabel" aria-hidden="true">
@@ -133,7 +153,8 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
                       <button type="submit" class="btn">Sign up</button>
                     </div>
                     <p class="aligncenter margintop20">
-                      Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a>
+                      Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a><br>
+                      Log in via <a href="auth.php">Google</a><a href="auth.php"><img src="foto/google-logo.png" alt="Google" width="30" height="30"></a>
                     </p>
                   </div>
                 </form>
@@ -165,7 +186,8 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
                       <button type="submit" class="btn">Sign in</button>
                     </div>
                     <p class="aligncenter margintop20">
-                      Forgot password? <a href="#myReset" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Reset</a>
+                      Forgot password? <a href="#myReset" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Reset</a><br>
+                      Log in via <a href="auth.php">Google</a><a href="auth.php"><img src="foto/google-logo.png" alt="Google" width="30" height="30"></a>
                     </p>
                   </div>
                 </form>
@@ -198,12 +220,12 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
               </div>
             </div>
             <!-- end reset modal -->
-          </div>
+         </div>
         </div>
         <div class="row">
           <div class="span4">
             <div class="logo">
-              <a href="index.php"><img src="foto/logo.png" alt="" class="logo" width=250px /></a>
+              <a href="index.php"><img src="foto/logo.png" alt="" class="logo"width=250pxs /></a>
               
             </div>
           </div>
@@ -241,72 +263,171 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
                   </ul>
                 </nav>
               </div>
-              <!-- end navigation -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+            </header>
     <!-- end header -->
     <section id="inner-headline">
       <div class="container">
         <div class="row">
           <div class="span4">
             <div class="inner-heading">
-              <h2>Profile</h2>
+              <h2>About</h2>
             </div>
           </div>
           <div class="span8">
             <ul class="breadcrumb">
-              <li><a href="index.php"><i class="icon-home"></i></a><i class="icon-angle-right"></i></li>
-              <li class="active">Profile</li>
+              <li><a href="index.html"><i class="icon-home"></i></a><i class="icon-angle-right"></i></li>
+              <li><a href="#">Profile Perusahaan</a><i class="icon-angle-right"></i></li>
+              
             </ul>
           </div>
         </div>
       </div>
     </section>
     <section id="content">
-
       <div class="container">
         <div class="row">
+          <div class="span6">
+            <h2>Welcome to <strong> 3 Putra Petir</strong></h2>
+            <p>
+              Misi kami adalah :<br>
+              Untuk menciptakan nilai bagi pelanggan kami, pemegang saham.
+              Untuk mempercepat evolusi pembayaran elektronik di seluruh dunia dengan menjadi pemimpin Eropa dalam pemrosesan transaksi, memberikan inovasi dalam yang aman, kecepatan infrastruktur dan intelijen.
+            </p>
+            <p>
+              Visi kami adalah :<br>
+              Untuk diakui sebagai pemimpin regional dalam penyediaan kualitas layanan yang tinggi investasi bisnis, dan produk.
+              CV. Tiga Putra Petir bersedia untuk mendefinisikan kembali manajemen aset dengan transparansi lengkap dan likuiditas yang tinggi. Untuk menargetkan kembali mutlak menggunakan risiko disesuaikan strategi dan inovasi. Untuk mengaktifkan data-driven commerce dan layanan investasi melalui inovasi dalam yang aman, kecepatan infrastruktur dan intelijen.
+            </p>
+          </div>
+          <div class="span6">
+            <!-- start flexslider -->
+            <div class="flexslider">
+              <ul class="slides">
+                <li>
+                  <img src="foto/image-08-full.jpg" alt="" />
+                </li>
+               
+            </div>
+            <!-- end flexslider -->
+          </div>
+        </div>
+        <!-- divider -->
+        <div class="row">
           <div class="span12">
-            <h4>Update your <strong>profile</strong></h4>
-
-            <?php
-
-            $id = $_GET['id'];
-            $result = mysqli_query($mysqli, "SELECT * FROM pengunjung WHERE email='$id'");
-            $user_data = mysqli_fetch_array($result);
-            ?>
-
-            <form name="update-data" action="update-profile.php" method="post">
-                  <p><strong>Name</strong></p>
-                  <input type="text" name="name" placeholder="Your Name" />
-
+            <div class="solidline">
+            </div>
+          </div>
+        </div>
+        <!-- end divider -->
+        <div class="row">
+          <div class="span12">
+            <h4>Chief Executive Officer</h4>
+          </div>
+          <div class="span3">
+            <img src="foto/default-user.png" alt="" class="img-polaroid" />
+            <div class="roles">
+              <p class="lead">
+                <strong>Antonio Putra</strong>
+              </p>
+              <p>
+                CEO - Founder
+              </p>
+            </div>
+          </div>
+          <div class="span3">
+            <img src="foto/default-user.png" alt="" class="img-polaroid" />
+            <div class="roles">
+              <p class="lead">
+                <strong>Aviecenna Yudhistira</strong>
+              </p>
+              <p>
+                CEO - Founder
+              </p>
+            </div>
+          </div>
+          <div class="span3">
+            <img src="foto/default-user.png" alt="" class="img-polaroid" />
+            <div class="roles">
+              <p class="lead">
+                <strong>Iqbal Ibrahim</strong>
+              </p>
+              <p>
+                CEO - Founder
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- divider -->
+        <div class="row">
+          <div class="span12">
+            <div class="solidline">
+            </div>
+          </div>
+        </div>
+        <!-- end divider -->
+        <div class="row">
+          <div class="span6">
+            <h4>Selebihnya</h4>
+            <div class="accordion" id="accordion2">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+							1. What we do </a>
                 </div>
-                <div class="span4 ">
-                  <p><strong>Phone</strong></p>
-                  <input type="text"name="phone" placeholder="Your Phone Number">
-                  <div class="validation"></div>
-
+                <div id="collapseOne" class="accordion-body collapse in">
+                  <div class="accordion-inner">
+                    <p>
+                      Kami Membuat sponsor dan customer kami percaya dengan kami
+                      maka dari itu kami selalu setiap tahun mengadakan event-event
+                    </p>
+                  </div>
                 </div>
-                <div class="span4 form-group">
-                  <p><strong>Birthday</strong></p>
-                  <input type="text"name="birthday"placeholder="Your Birthday" data-msg="Please fill the black space" />
-                  <div class="validation"></div>
-
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+							2. Work process </a>
                 </div>
-                <div class="span12 margintop10 form-group">
-                  <p><strong>Address</strong></p>
-                  <input type="text" name="address" placeholder="Your Address" data-msg="Please fill the black space" />
-                  <div class="validation"></div>
-
-                  <input type="hidden" name="id4" value="<?php echo $_GET['id'];?>">
-                  <p class="text-center">
-                    <input class="btn btn-large btn-theme margintop10" type="submit" name="update"/>
-                  </p>
+                <div id="collapseTwo" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <p>
+                      Proses Kerja kami insyallah berjalan lancar, dengan ada nya karyawan yang taat dan sopan maka perusahaan kami ini dikenal orang banyak bahkan seluruh dunia.
+                    </p>
+                  </div>
                 </div>
-            </form>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+							3. Quality assurance </a>
+                </div>
+                <div id="collapseThree" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <p>
+                      Buat para pekerja kami , kami menyediakan asuransi kematian. kami disini memfasilitasi karyawan kami sebaik mungkin sehingga mereka nyaman dengan pekerjaan nya sendiri.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+							4. What we can deliver </a>
+                </div>
+                <div id="collapseFour" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <p>
+                      Kami berpesan pada  pelanggan kami dan sponsor kami, kami dari pihak perusahaan sangat menghargai kalian gimana nya kalian lah yang membuat perusahaan ini menuju gerbang industri besar di dunia ini.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="span6">
+<div id="columnchart_values" style="width: 700; height: 150;"></div>
+<p><a href="cetak.php">Cetak</a></p>
           </div>
         </div>
       </div>
@@ -316,25 +437,23 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
         <div class="row">
           <div class="span3">
             <div class="widget">
-              <h5 class="widgetheading">Browse pages</h5>
+              <h5 class="widgetheading">Quotes Perusahaan</h5>
               <ul class="link-list">
-                <li><a href="#">About our company</a></li>
-                <li><a href="#">Our services</a></li>
-                <li><a href="#">Meet our team</a></li>
-                <li><a href="#">Explore our portfolio</a></li>
-                <li><a href="#">Get in touch with us</a></li>
+                <li></li>
+                <li>In order to succeed,</a></li>
+                <li>your desire for success</a></li>
+                <li>should be greater </a></li>
+                <li>than your fear of failure.</a></li>
               </ul>
             </div>
           </div>
           <div class="span3">
             <div class="widget">
-              <h5 class="widgetheading">Important stuff</h5>
+              <h5 class="widgetheading">Chief Executive Officer</h5>
               <ul class="link-list">
-                <li><a href="#">Press release</a></li>
-                <li><a href="#">Terms and conditions</a></li>
-                <li><a href="#">Privacy policy</a></li>
-                <li><a href="#">Career center</a></li>
-                <li><a href="#">Flattern forum</a></li>
+                <li>Anthonio Putra</li>
+                <li>Aviecenna Yudhistira</li>
+                <li>Iqbal Ibrahim</li>
               </ul>
             </div>
           </div>
@@ -348,17 +467,17 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
               </div>
             </div>
           </div>
-          <div class="span3">
+           <div class="span3">
             <div class="widget">
               <h5 class="widgetheading">Get in touch with us</h5>
               <address>
-								<strong>Flattern studio, Pte Ltd</strong><br>
-								 Springville center X264, Park Ave S.01<br>
-								 Semarang 16425 Indonesia
-					 		</address>
+                <strong>3 Putra Petir, CV. Tiga Putra Petir</strong><br>
+                 Jl. Yos Sudarso, Rumbai, 134<br>
+                 Rumbai 16425 Indonesia
+              </address>
               <p>
-                <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891 <br>
-                <i class="icon-envelope-alt"></i> email@domainname.com
+                <i class="icon-phone"></i> 081277923568 <br>
+                <i class="icon-envelope-alt"></i> tigaputrapetir@gmail.com
               </p>
             </div>
           </div>
@@ -416,10 +535,6 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
   <script src="js/jquery.ba-cond.min.js"></script>
   <script src="js/jquery.slitslider.js"></script>
   <script src="js/animate.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8HeI8o-c1NppZA-92oYlXakhDPYR7XMY"></script>
-
-  <!-- Contact Form JavaScript File -->
-  <script src="contactform/contactform.js"></script>
 
   <!-- Template Custom JavaScript File -->
   <script src="js/custom.js"></script>

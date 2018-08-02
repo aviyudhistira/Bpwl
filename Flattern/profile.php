@@ -1,24 +1,3 @@
-<?php
-include_once("config.php");
-
-if(isset($_POST['update']))
-{ 
-
-  $result1 = mysqli_query($mysqli, "SELECT * FROM pengunjung WHERE email='id3'");
-  $user_data = mysqli_fetch_array($result1);
-
-  $id3 = $_POST['id4'];
-  $name=$_POST['name'];
-  $phone=$_POST['phone'];
-  $birthday=$_POST['birthday'];
-  $address=$_POST['address'];
-
-  $result = mysqli_query($mysqli, "UPDATE pengunjung SET name='$name',phone='$phone',birthday='$birthday',address='$address' WHERE email='$id3'");
-
-  header("Location: result-update.php");
-}
-?>
-
     <!DOCTYPE html>
 <html lang="en">
 
@@ -62,9 +41,9 @@ if(isset($_POST['update']))
         <div class="row">
           <div class="span12">
             <ul>
-              <li><strong>We are available for any custom works this month</strong></li>
-              <li>Main office: Springville center X264, Park Ave S.01</li>
-              <li>Call us <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891</li>
+              <li><strong>CV. Tiga Putra Petir </strong></li>
+              <li>Main office: Yos Sudarso, Rumbai.134</li>
+              <li>Call us <i class="icon-phone"></i> 081277923568 </li>
             </ul>
           </div>
         </div>
@@ -83,24 +62,25 @@ if(isset($_POST['update']))
           <div class="span12">
             <div class="headnav">
               <?php
-require_once __DIR__.'/vendor/autoload.php';
+                require_once __DIR__.'/vendor/autoload.php';
   
-session_start();
+                session_start();
   
-if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
-  $profile = $_SESSION['access_profile'];
-  echo "
-          <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
-  echo "Hai,({$profile['emails']['0']['value']})<br>
-            <a href=\"#home\">Edit</a>
-            <a href=\"logout.php\">Logout</a>";
-} else {
-  echo "<ul>
-                <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
-                <li><a href='#mySignin' data-toggle='modal'>Sign in</a></li>
-              </ul>";
-}
-?>
+                if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+                  $profile = $_SESSION['access_profile'];
+                  echo "
+                        <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
+                  echo "Hai,({$profile['emails']['0']['value']})<br>
+                          <a href=\"#home\">Edit</a>
+                          <a href=\"logout.php\">Logout</a>
+                        ";
+                } else {
+                  echo "<ul>
+                          <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
+                          <li><a href='#mySignin' data-toggle='modal'>Sign in</a></li>
+                        </ul>";
+                }
+              ?>
             </div>
             <!-- Signup Modal -->
             <div id="mySignup" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySignupModalLabel" aria-hidden="true">
@@ -264,49 +244,27 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
           </div>
         </div>
       </div>
-    </section>
+    </section>  
     <section id="content">
 
       <div class="container">
         <div class="row">
           <div class="span12">
-            <h4>Update your <strong>profile</strong></h4>
-
             <?php
-
-            $id = $_GET['id'];
+            include_once("config.php");
+            $id = $_GET['id2'];
             $result = mysqli_query($mysqli, "SELECT * FROM pengunjung WHERE email='$id'");
             $user_data = mysqli_fetch_array($result);
-            ?>
 
-            <form name="update-data" action="update-profile.php" method="post">
-                  <p><strong>Name</strong></p>
-                  <input type="text" name="name" placeholder="Your Name" />
+            echo "<img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"250\" height=\"250\">";
+            echo "<h5><i class=\"icon-envelope\"></i>&nbsp".$user_data['email']."</h5>";
+            echo "<h5><i class=\"icon-user-md\"></i>&nbsp".$user_data['name']."</h5>";
+            echo "<h5><i class=\"icon-phone\"></i>&nbsp".$user_data['phone']."</h5>";
+            echo "<h5><i class=\"icon-phone\"></i>&nbsp".$user_data['birthday']."</h5>";
+            echo "<h5><i class=\"icon-home\"></i>&nbsp".$user_data['address']."</h5>";
+            
 
-                </div>
-                <div class="span4 ">
-                  <p><strong>Phone</strong></p>
-                  <input type="text"name="phone" placeholder="Your Phone Number">
-                  <div class="validation"></div>
-
-                </div>
-                <div class="span4 form-group">
-                  <p><strong>Birthday</strong></p>
-                  <input type="text"name="birthday"placeholder="Your Birthday" data-msg="Please fill the black space" />
-                  <div class="validation"></div>
-
-                </div>
-                <div class="span12 margintop10 form-group">
-                  <p><strong>Address</strong></p>
-                  <input type="text" name="address" placeholder="Your Address" data-msg="Please fill the black space" />
-                  <div class="validation"></div>
-
-                  <input type="hidden" name="id4" value="<?php echo $_GET['id'];?>">
-                  <p class="text-center">
-                    <input class="btn btn-large btn-theme margintop10" type="submit" name="update"/>
-                  </p>
-                </div>
-            </form>
+            echo "<h4><a href=\"update-profile.php?id=$user_data[email]\">Edit Profile</h4>";?>
           </div>
         </div>
       </div>
