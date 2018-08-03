@@ -25,30 +25,39 @@
   <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png" />
   <link rel="shortcut icon" href="ico/favicon.png" />
   <script type="text/javascript" src="jquery-1.2.3.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
- 
-  $().ajaxStart(function() {
-    $('#loading').show();
-    $('#result').hide();
-  }).ajaxStop(function() {
-    $('#loading').hide();
-    $('#result').fadeIn('slow');
-  });
- 
-  $('#myForm').submit(function() {
-    $.ajax({
-      type: 'POST',
-      url: $(this).attr('action'),
-      data: $(this).serialize(),
-      success: function(data) {
-        $('#result').html(data);
+  <script>
+    function loadXML(){
+      var xmlhttp;
+      if (window.XMLHttpRequest) {
+        xmlhttp=new XMLHttpRequest();
+      }else{
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
       }
-    })
-    return false;
-  });
-})
-</script>
+      xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+          document.getElementById("isi").innerHTML=xmlhttp.responseText;
+        }
+      }
+      xmlhttp.open("Get","text1.xml",true);
+      xmlhttp.send();
+    }
+
+        function loadXML2(){
+      var xmlhttp;
+      if (window.XMLHttpRequest) {
+        xmlhttp=new XMLHttpRequest();
+      }else{
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+          document.getElementById("isi").innerHTML=xmlhttp.responseText;
+        }
+      }
+      xmlhttp.open("Get","text2.xml",true);
+      xmlhttp.send();
+    }
+  </script>
 
   <!-- =======================================================
     Theme Name: Flattern
@@ -66,7 +75,7 @@ $(document).ready(function() {
         <div class="row">
           <div class="span12">
             <ul>
-              <li><strong>CV. Tiga Putra Petir <strong></li>
+              <li><strong>CV. Tiga Putra Petir </strong></li>
               <li>Main office: Yos Sudarso, Rumbai.134</li>
               <li>Call us <i class="icon-phone"></i> 081277923568 </li>
             </ul>
@@ -96,14 +105,11 @@ $(document).ready(function() {
   
                 if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
                   $profile = $_SESSION['access_profile'];
-                  echo "<div class=\"dropdown-x\">
+                  echo "
                         <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
-                  echo "Hai,({$profile['emails']['0']['value']})
-                        <div id=\"myDropdown\" class=\"dropdown-content\">
+                  echo "Hai,({$profile['emails']['0']['value']})<br>
                           <a href=\"profile.php?id2=$user_data[email]\">Profile</a>
-                          <a href=\"logout.php\">Logout</a>
-                        </div>
-                        </div>";
+                          <a href=\"logout.php\">Logout</a>";
                 } else {
                   echo "<ul>
                           <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
@@ -144,7 +150,7 @@ $(document).ready(function() {
                     </div>
                     <p class="aligncenter margintop20">
                       Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a><br>
-                      Log in via <a href="auth.php">Google</a><a href="auth.php"><img src="img/google-logo.png" alt="Google" width="30" height="30"></a>
+                      Log in via <a href="auth.php">Google</a><a href="auth.php"><img src="foto/google-logo.png" alt="Google" width="30" height="30"></a>
                     </p>
                   </div>
                 </form>
@@ -176,7 +182,8 @@ $(document).ready(function() {
                       <button type="submit" class="btn">Sign in</button>
                     </div>
                     <p class="aligncenter margintop20">
-                      Forgot password? <a href="#myReset" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Reset</a>
+                      Forgot password? <a href="#myReset" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Reset</a><br>
+                      Log in via <a href="auth.php">Google</a><a href="auth.php"><img src="foto/google-logo.png" alt="Google" width="30" height="30"></a>
                     </p>
                   </div>
                 </form>
@@ -214,7 +221,7 @@ $(document).ready(function() {
         <div class="row">
           <div class="span4">
             <div class="logo">
-              <a href="index.php"><img src="foto/logo.png" alt="" class="logo" /></a>
+              <a href="index.php"><img src="foto/logo.png" alt="" class="logo" width=250px /></a>
               
             </div>
           </div>
@@ -274,16 +281,20 @@ $(document).ready(function() {
     </section>
     <section id="content">
       <div class="container">
+<div class="span2">
+  <button class="btn btn-large btn-theme margintop10" type="submit" onclick="loadXML()">Tim Tukang</button>
+<div id="isi">
+  <h4> </h4>
+</div>
+</div>
 
-<div id="loading" style="display:none;">loading...</div>
-<div id="result" style="display:none;"></div>
-<form id="myForm" method="post" action="data.php">
-  <button class="btn btn-large btn-theme margintop10" type="submit">Tim Tukang</button>
-</form>
 
-<form id="myForm" method="post" action="data2.php">
-    <button class="btn btn-large btn-theme margintop10" type="submit">Gaji Perbulan</button>
-</form>
+<div class="span2">
+  <button class="btn btn-large btn-theme margintop10" type="submit" onclick="loadXML2()">Gaji Perbulan</button>
+<div id="isi2">
+  <h4> </h4>
+</div>
+</div>
 
       </div>
     </section>

@@ -1,25 +1,4 @@
-<?php
-include_once("config.php");
-
-if(isset($_POST['update']))
-{ 
-
-  $result1 = mysqli_query($mysqli, "SELECT * FROM pengunjung WHERE email='id3'");
-  $user_data = mysqli_fetch_array($result1);
-
-  $id3 = $_POST['id4'];
-  $name=$_POST['name'];
-  $phone=$_POST['phone'];
-  $birthday=$_POST['birthday'];
-  $address=$_POST['address'];
-
-  $result = mysqli_query($mysqli, "UPDATE pengunjung SET name='$name',phone='$phone',birthday='$birthday',address='$address' WHERE email='$id3'");
-
-  header("Location: result-update.php");
-}
-?>
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -45,7 +24,6 @@ if(isset($_POST['update']))
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png" />
   <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png" />
   <link rel="shortcut icon" href="ico/favicon.png" />
-
   <!-- =======================================================
     Theme Name: Flattern
     Theme URL: https://bootstrapmade.com/flattern-multipurpose-bootstrap-template/
@@ -62,9 +40,9 @@ if(isset($_POST['update']))
         <div class="row">
           <div class="span12">
             <ul>
-              <li><strong>We are available for any custom works this month</strong></li>
-              <li>Main office: Springville center X264, Park Ave S.01</li>
-              <li>Call us <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891</li>
+              <li><strong>CV. Tiga Putra Petir </strong></li>
+              <li>Main office: Yos Sudarso, Rumbai.134</li>
+              <li>Call us <i class="icon-phone"></i> 081277923568 </li>            
             </ul>
           </div>
         </div>
@@ -73,7 +51,7 @@ if(isset($_POST['update']))
     <!-- end toggle top area -->
     <!-- start header -->
     <header>
-      <div class="container">
+      <div class="container ">
         <!-- hidden top area toggle link -->
         <div id="header-hidden-link">
           <a href="#" class="toggle-link" title="Click me you'll get a surprise" data-target=".hidden-top"><i></i>Open</a>
@@ -83,24 +61,28 @@ if(isset($_POST['update']))
           <div class="span12">
             <div class="headnav">
               <?php
-require_once __DIR__.'/vendor/autoload.php';
+                require_once __DIR__.'/vendor/autoload.php';
+                include_once("config.php");
+                $result = mysqli_query($mysqli, "SELECT * FROM pengunjung");
+                $user_data = mysqli_fetch_array($result);
   
-session_start();
+                session_start();
   
-if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
-  $profile = $_SESSION['access_profile'];
-  echo "
-          <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
-  echo "Hai,({$profile['emails']['0']['value']})<br>
-            <a href=\"#home\">Edit</a>
-            <a href=\"logout.php\">Logout</a>";
-} else {
-  echo "<ul>
-                <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
-                <li><a href='#mySignin' data-toggle='modal'>Sign in</a></li>
-              </ul>";
-}
-?>
+                if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+                  $profile = $_SESSION['access_profile'];
+                  echo "
+                        <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
+                  echo "Hai,({$profile['emails']['0']['value']})<br>
+                          <a href=\"profile.php?id2=$user_data[email]\">Profile</a>
+                          <a href=\"logout.php\">Logout</a>";
+                } else {
+                  echo "<ul>
+                          <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
+                          <li><a href='#mySignin' data-toggle='modal'>Sign in</a></li>
+                        </ul>";
+                }
+              ?>
+            
             </div>
             <!-- Signup Modal -->
             <div id="mySignup" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySignupModalLabel" aria-hidden="true">
@@ -133,7 +115,8 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
                       <button type="submit" class="btn">Sign up</button>
                     </div>
                     <p class="aligncenter margintop20">
-                      Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a>
+                      Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a><br>
+                      Log in via <a href="auth.php">Google</a><a href="auth.php"><img src="foto/google-logo.png" alt="Google" width="30" height="30"></a>
                     </p>
                   </div>
                 </form>
@@ -165,7 +148,8 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
                       <button type="submit" class="btn">Sign in</button>
                     </div>
                     <p class="aligncenter margintop20">
-                      Forgot password? <a href="#myReset" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Reset</a>
+                      Forgot password? <a href="#myReset" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Reset</a><br>
+                      Log in via <a href="auth.php">Google</a><a href="auth.php"><img src="foto/google-logo.png" alt="Google" width="30" height="30"></a>
                     </p>
                   </div>
                 </form>
@@ -248,65 +232,276 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
       </div>
     </header>
     <!-- end header -->
-    <section id="inner-headline">
+    <section id="featured">
+      <!-- start slider -->
+      <!-- Slider -->
+      <div id="nivo-slider">
+        <div class="nivo-slider">
+          <!-- Slide #1 image -->
+          <img src="foto/homepage/bor.jpg" alt="" title="#caption-1" />
+          <!-- Slide #2 image -->
+          <img src="foto/homepage/cat.jpg" alt="" title="#caption-2" />
+          <!-- Slide #3 image -->
+          <img src="foto/homepage/IMG20180731115347.jpg" alt="" title="#caption-3" />
+          <!-- Slide #4 image -->
+          <img src="foto/homepage/DSC04922.jpg" alt="" title="#caption-4" />
+          
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="span12">
+              <!-- Slide #1 caption -->
+              <div class="nivo-caption" id="caption-1">
+                <div>
+                  <h2>Berbagai macam <strong>Bor</strong></h2>
+                  <p>
+                    Disini disediakan berbagai macam merek mesin bor yang berkualitas.
+                  </p>
+                  
+                </div>
+              </div>
+              <div class="nivo-caption" id="caption-3">
+                <div>
+                  <h2><strong>Tiga Putra Petir</strong></h2>
+                  <p>
+                    Profile kami.
+                  </p>
+                  
+                </div>
+              </div>
+              <!-- Slide #2 caption -->
+              <div class="nivo-caption" id="caption-2">
+                <div>
+                  <h2>Kebutuhan <strong>Rumah Tangga</strong></h2>
+                  <p>
+                    Perlengkapan untuk membenarkan peralatan di rumah anda.
+                  </p>
+                 
+                </div>
+              </div>
+
+              <div class="nivo-caption" id="caption-4">
+                <div>
+                  <h2>Segala macam <strong>Cat</strong></h2>
+                  <p>
+                    Perlengkapan untuk membenarkan peralatan di rumah anda.
+                  </p>
+                 
+                </div>
+              </div>
+      <!-- end slider -->
+    </section>
+    <section class="callaction">
       <div class="container">
         <div class="row">
-          <div class="span4">
-            <div class="inner-heading">
-              <h2>Profile</h2>
+          <div class="span12">
+            <div class="big-cta">
+              <div class="cta-text">
+                <h3>Kami akan membuat rumah anda<span class="highlight"><strong> SEKUAT ATOM</strong></span> dengan gaya minimalis</h3>
+              </div>
+              <div class="cta floatright">
+                <a class="btn btn-large btn-theme btn-rounded" href="#">Request a quote</a>
+              </div>
             </div>
-          </div>
-          <div class="span8">
-            <ul class="breadcrumb">
-              <li><a href="index.php"><i class="icon-home"></i></a><i class="icon-angle-right"></i></li>
-              <li class="active">Profile</li>
-            </ul>
           </div>
         </div>
       </div>
     </section>
     <section id="content">
-
       <div class="container">
         <div class="row">
           <div class="span12">
-            <h4>Update your <strong>profile</strong></h4>
-
-            <?php
-
-            $id = $_GET['id'];
-            $result = mysqli_query($mysqli, "SELECT * FROM pengunjung WHERE email='$id'");
-            $user_data = mysqli_fetch_array($result);
-            ?>
-
-            <form name="update-data" action="update-profile.php" method="post">
-                  <p><strong>Name</strong></p>
-                  <input type="text" name="name" placeholder="Your Name" />
-
+            <div class="row">
+              <div class="span3">
+                <div class="box aligncenter">
+                  <div class="aligncenter icon">
+                    <i class="icon-briefcase icon-circled icon-64 active"></i>
+                  </div>
+                  <div class="text">
+                    <h6>Lowongan Pekerjaan</h6>
+                    <p>
+                      Kami Menerima Lowongan Pekerjaan
+                      Bagi Yang Mempunyai Skill
+                      Hubungi Kami.
+                    </p>
+                   
+                  </div>
                 </div>
-                <div class="span4 ">
-                  <p><strong>Phone</strong></p>
-                  <input type="text"name="phone" placeholder="Your Phone Number">
-                  <div class="validation"></div>
-
+              </div>
+              <div class="span3">
+                <div class="box aligncenter">
+                  <div class="aligncenter icon">
+                    <i class="icon-desktop icon-circled icon-64 active"></i>
+                  </div>
+                  <div class="text">
+                    <h6>Website Yang Userfriendly</h6>
+                    <p>
+                      Website ini kami desain buat pelanggan
+                      Agar terliat nyaman bagi pelanggan kami.
+                    </p>
+                    
+                  </div>
                 </div>
-                <div class="span4 form-group">
-                  <p><strong>Birthday</strong></p>
-                  <input type="text"name="birthday"placeholder="Your Birthday" data-msg="Please fill the black space" />
-                  <div class="validation"></div>
-
+              </div>
+              <div class="span3">
+                <div class="box aligncenter">
+                  <div class="aligncenter icon">
+                    <i class="icon-beaker icon-circled icon-64 active"></i>
+                  </div>
+                  <div class="text">
+                    <h6>Material Yang Kuat</h6>
+                    <p>
+                      Disini kami dipercaya oleh pelanggan kami
+                      Karna material kami lah yang terjamin.
+                    </p>
+                    
+                  </div>
                 </div>
-                <div class="span12 margintop10 form-group">
-                  <p><strong>Address</strong></p>
-                  <input type="text" name="address" placeholder="Your Address" data-msg="Please fill the black space" />
-                  <div class="validation"></div>
-
-                  <input type="hidden" name="id4" value="<?php echo $_GET['id'];?>">
-                  <p class="text-center">
-                    <input class="btn btn-large btn-theme margintop10" type="submit" name="update"/>
-                  </p>
+              </div>
+              <div class="span3">
+                <div class="box aligncenter">
+                  <div class="aligncenter icon">
+                    <i class="icon-coffee icon-circled icon-64 active"></i>
+                  </div>
+                  <div class="text">
+                    <h6>Kepuasan Pelanggan</h6>
+                    <p>
+                      Kami juga telah mengsurvei hasil kami
+                      kepada pelanggan kami, Ternyata layanan
+                      kami sanggat bagus dan keren.
+                    </p>
+                    
+                  </div>
                 </div>
-            </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- divider -->
+        <div class="row">
+          <div class="span12">
+            <div class="solidline">
+            </div>
+          </div>
+        </div>
+        <!-- end divider -->
+        <!-- Portfolio Projects -->
+        <div class="row">
+          <div class="span12">
+            <h4 class="heading">Catalog <strong>Rumah</strong></h4>
+            <div class="row">
+              <section id="projects">
+                <ul id="thumbs" class="portfolio">
+                  <!-- Item Project and Filter Name -->
+                  <li class="item-thumbs span3 design" data-id="id-0" data-type="web">
+                    <!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                    <a class="hover-wrap fancybox" data-fancybox-group="gallery" title="The City" href="foto/image-01-full.jpg">
+            <span class="overlay-img"></span>
+            <span class="overlay-img-thumb font-icon-plus"></span>
+            </a>
+                    <!-- Thumb Image and Description -->
+                    <img src="foto/11.jpg" alt=" ">
+                  </li>
+                  <!-- End Item Project -->
+                  <!-- Item Project and Filter Name -->
+                  <li class="item-thumbs span3 design" data-id="id-1" data-type="icon">
+                    <!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                    <a class="hover-wrap fancybox" data-fancybox-group="gallery" title="The Office" href="foto/image-02-full.jpg">
+            <span class="overlay-img"></span>
+            <span class="overlay-img-thumb font-icon-plus"></span>
+            </a>
+                    <!-- Thumb Image and Description -->
+                    <img src="foto/12.jpg" alt="">
+                  </li>
+                  <!-- End Item Project -->
+                  <!-- Item Project and Filter Name -->
+                  <li class="item-thumbs span3 photography" data-id="id-2" data-type="illustrator">
+                    <!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                    <a class="hover-wrap fancybox" data-fancybox-group="gallery" title="The Mountains" href="foto/image-03-full.jpg">
+            <span class="overlay-img"></span>
+            <span class="overlay-img-thumb font-icon-plus"></span>
+            </a>
+                    <!-- Thumb Image and Description -->
+                    <img src="foto/13.jpg" alt="">
+                  </li>
+                  <!-- End Item Project -->
+                  <!-- Item Project and Filter Name -->
+                  <li class="item-thumbs span3 photography" data-id="id-2" data-type="illustrator">
+                    <!-- Fancybox - Gallery Enabled - Title - Full Image -->
+                    <a class="hover-wrap fancybox" data-fancybox-group="gallery" title="The Classic" href="foto/image-04-full.jpg">
+            <span class="overlay-img"></span>
+            <span class="overlay-img-thumb font-icon-plus"></span>
+            </a>
+                    <!-- Thumb Image and Description -->
+                    <img src="foto/14.jpg" alt="">
+                  </li>
+                  <!-- End Item Project -->
+                  <!-- Item Project and Filter Name -->
+                  
+            </a>
+                    <!-- Thumb Image and Description -->
+                    
+                  </li>
+                  <!-- End Item Project -->
+                </ul>
+              </section>
+            </div>
+          </div>
+        </div>
+        <!-- End Portfolio Projects -->
+        <!-- divider -->
+        <div class="row">
+          <div class="span12">
+            <div class="solidline">
+            </div>
+          </div>
+        </div>
+        <!-- end divider -->
+        <div class="row">
+          <div class="span12">
+            <h4>Kami Bekerjasama Dengan <strong>Perusahaan Lainnya</strong></h4>
+            <ul id="mycarousel" class="jcarousel-skin-tango recent-jcarousel clients">
+              <li>
+                <a href="dewalt.com">
+          <img src="foto/client/dewalt.png" class="client-logo" alt="" />
+          </a>
+              </li>
+              <li>
+                <a href="mesinmodern.com">
+          <img src="foto/client/modern.png" class="client-logo" alt="" />
+          </a>
+              </li>
+              <li>
+                <a href="makita.biz">
+          <img src="foto/client/makita.png" class="client-logo" alt="" />
+          </a>
+              </li>
+              <li>
+                <a href="makitatools.com">
+          <img src="foto/client/maktec.png" class="client-logo" alt="" />
+          </a>
+              </li>
+              <li>
+              <a href="miyako.co.id">
+          <img src="foto/client/miyako.png" class="client-logo" alt="" />
+        </a>
+              
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="bottom">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <div class="aligncenter">
+              <div id="twitter-wrapper">
+                <div id="twitter">
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -316,25 +511,24 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
         <div class="row">
           <div class="span3">
             <div class="widget">
-              <h5 class="widgetheading">Browse pages</h5>
+              <h5 class="widgetheading">Quotes Perusahaan</h5>
               <ul class="link-list">
-                <li><a href="#">About our company</a></li>
-                <li><a href="#">Our services</a></li>
-                <li><a href="#">Meet our team</a></li>
-                <li><a href="#">Explore our portfolio</a></li>
-                <li><a href="#">Get in touch with us</a></li>
+                <li></li>
+                <li>In order to succeed,</a></li>
+                <li>your desire for success</a></li>
+                <li>should be greater </a></li>
+                <li>than your fear of failure.</a></li>
               </ul>
             </div>
           </div>
           <div class="span3">
             <div class="widget">
-              <h5 class="widgetheading">Important stuff</h5>
+              <h5 class="widgetheading">Chief Executive Officer</h5>
               <ul class="link-list">
-                <li><a href="#">Press release</a></li>
-                <li><a href="#">Terms and conditions</a></li>
-                <li><a href="#">Privacy policy</a></li>
-                <li><a href="#">Career center</a></li>
-                <li><a href="#">Flattern forum</a></li>
+                <li>Anthonio Putra</li>
+                <li>Aviecenna Yudhistira</li>
+                <li>Iqbal Ibrahim</li>
+                
               </ul>
             </div>
           </div>
@@ -352,13 +546,13 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
             <div class="widget">
               <h5 class="widgetheading">Get in touch with us</h5>
               <address>
-								<strong>Flattern studio, Pte Ltd</strong><br>
-								 Springville center X264, Park Ave S.01<br>
-								 Semarang 16425 Indonesia
-					 		</address>
+                <strong>3 Putra Petir, CV. Tiga Putra Petir</strong><br>
+                 Jl. Yos Sudarso, Rumbai, 134<br>
+                 Rumbai 16425 Indonesia
+              </address>
               <p>
-                <i class="icon-phone"></i> (123) 456-7890 - (123) 555-7891 <br>
-                <i class="icon-envelope-alt"></i> email@domainname.com
+                <i class="icon-phone"></i> 081277923568 <br>
+                <i class="icon-envelope-alt"></i> tigaputrapetir@gmail.com
               </p>
             </div>
           </div>
@@ -370,7 +564,7 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
             <div class="span6">
               <div class="copyright">
                 <p>
-                  <span>&copy; Flattern - All right reserved.</span>
+                  <span>&copy; 3PP - All right reserved.</span>
                 </p>
                 <div class="credits">
                   <!--
@@ -379,7 +573,7 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
                     Licensing information: https://bootstrapmade.com/license/
                     Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Flattern
                   -->
-                  Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                  Designed by <a href="https://bootstrapmade.com/">3PP</a>
                 </div>
               </div>
             </div>
@@ -416,14 +610,9 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
   <script src="js/jquery.ba-cond.min.js"></script>
   <script src="js/jquery.slitslider.js"></script>
   <script src="js/animate.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8HeI8o-c1NppZA-92oYlXakhDPYR7XMY"></script>
-
-  <!-- Contact Form JavaScript File -->
-  <script src="contactform/contactform.js"></script>
 
   <!-- Template Custom JavaScript File -->
   <script src="js/custom.js"></script>
 
 </body>
-
 </html>

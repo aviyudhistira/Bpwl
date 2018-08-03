@@ -41,7 +41,7 @@
         <div class="row">
           <div class="span12">
             <ul>
-              <li><strong>CV. Tiga Putra Petir <strong></li>
+              <li><strong>CV. Tiga Putra Petir </strong></li>
               <li>Main office: Yos Sudarso, Rumbai.134</li>
               <li>Call us <i class="icon-phone"></i> 081277923568 </li>
             </ul>
@@ -71,12 +71,11 @@
   
                 if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
                   $profile = $_SESSION['access_profile'];
-                  echo "<div class=\"dropdown-x\">
+                  echo "
                         <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
                   echo "Hai,({$profile['emails']['0']['value']})<br>
                           <a href=\"profile.php?id2=$user_data[email]\">Profile</a>
-                          <a href=\"logout.php\">Logout</a>
-                        </div>";
+                          <a href=\"logout.php\">Logout</a>";
                 } else {
                   echo "<ul>
                           <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
@@ -116,7 +115,8 @@
                       <button type="submit" class="btn">Sign up</button>
                     </div>
                     <p class="aligncenter margintop20">
-                      Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a>
+                      Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a><br>
+                      Log in via <a href="auth.php">Google</a><a href="auth.php"><img src="foto/google-logo.png" alt="Google" width="30" height="30"></a>
                     </p>
                   </div>
                 </form>
@@ -148,7 +148,8 @@
                       <button type="submit" class="btn">Sign in</button>
                     </div>
                     <p class="aligncenter margintop20">
-                      Forgot password? <a href="#myReset" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Reset</a>
+                      Forgot password? <a href="#myReset" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Reset</a><br>
+                      Log in via <a href="auth.php">Google</a><a href="auth.php"><img src="foto/google-logo.png" alt="Google" width="30" height="30"></a>
                     </p>
                   </div>
                 </form>
@@ -186,7 +187,7 @@
         <div class="row">
           <div class="span4">
             <div class="logo">
-              <a href="index.html"><img src="foto/logo.png" alt="" class="logo" /></a>
+              <a href="index.php"><img src="foto/logo.png" alt="" class="logo" width=250px /></a>
             
             </div>
           </div>
@@ -272,7 +273,7 @@
                 </ul>
               </div>
               <div class="pricing-action">
-                <a href="cetak.php" class="btn btn-medium btn-theme"><i class="icon-bolt"></i> Beli</a>
+                <a href="cetak.php" class="btn btn-medium btn-theme"><i class="icon-bolt"></i>Rincian</a>
               </div>
             </div>
           </div>
@@ -294,7 +295,7 @@
                 </ul>
               </div>
               <div class="pricing-action">
-                <a href="#" class="btn btn-medium btn-theme"><i class="icon-bolt"></i> Beli</a>
+                <a href="#" class="btn btn-medium btn-theme"><i class="icon-bolt"></i> Rincian</a>
               </div>
             </div>
           </div>
@@ -316,7 +317,7 @@
                 </ul>
               </div>
               <div class="pricing-action">
-                <a href="#" class="btn btn-medium btn-theme"><i class="icon-bolt"></i> Beli</a>
+                <a href="#" class="btn btn-medium btn-theme"><i class="icon-bolt"></i> Rincian</a>
               </div>
             </div>
           </div>

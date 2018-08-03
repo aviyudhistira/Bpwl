@@ -1,24 +1,3 @@
-<?php
-include_once("config.php");
-
-if(isset($_POST['update']))
-{ 
-
-  $result1 = mysqli_query($mysqli, "SELECT * FROM pengunjung WHERE email='id3'");
-  $user_data = mysqli_fetch_array($result1);
-
-  $id3 = $_POST['id4'];
-  $name=$_POST['name'];
-  $phone=$_POST['phone'];
-  $birthday=$_POST['birthday'];
-  $address=$_POST['address'];
-
-  $result = mysqli_query($mysqli, "UPDATE pengunjung SET name='$name',phone='$phone',birthday='$birthday',address='$address' WHERE email='$id3'");
-
-  header("Location: result-update.php");
-}
-?>
-
     <!DOCTYPE html>
 <html lang="en">
 
@@ -89,11 +68,14 @@ session_start();
   
 if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
   $profile = $_SESSION['access_profile'];
-  echo "
+  echo "<div class=\"dropdown-x\">
           <img src=\"{$profile['image']['url']}\" alt=\"Profile_photo\" width=\"30\" height=\"30\"> &nbsp<br>";
-  echo "Hai,({$profile['emails']['0']['value']})<br>
+  echo "Hai,({$profile['emails']['0']['value']})
+          <div id=\"myDropdown\" class=\"dropdown-content\">
             <a href=\"#home\">Edit</a>
-            <a href=\"logout.php\">Logout</a>";
+            <a href=\"logout.php\">Logout</a>
+            </div>
+          </div>";
 } else {
   echo "<ul>
                 <li><a href='#mySignup' data-toggle='modal'><i class='icon-user'></i> Sign up</a></li>
@@ -270,43 +252,17 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
       <div class="container">
         <div class="row">
           <div class="span12">
-            <h4>Update your <strong>profile</strong></h4>
+            <h4>Your data have been <strong>updated</strong></h4>
 
             <?php
+              include_once("config.php");
+              $result = mysqli_query($mysqli, "SELECT * FROM pengunjung");
+              $user_data = mysqli_fetch_array($result);
+            
 
-            $id = $_GET['id'];
-            $result = mysqli_query($mysqli, "SELECT * FROM pengunjung WHERE email='$id'");
-            $user_data = mysqli_fetch_array($result);
+              echo "<a class=\"btn btn-large btn-theme margintop10\" href=\"profile.php?id2=$user_data[email]\">back</a>";
+
             ?>
-
-            <form name="update-data" action="update-profile.php" method="post">
-                  <p><strong>Name</strong></p>
-                  <input type="text" name="name" placeholder="Your Name" />
-
-                </div>
-                <div class="span4 ">
-                  <p><strong>Phone</strong></p>
-                  <input type="text"name="phone" placeholder="Your Phone Number">
-                  <div class="validation"></div>
-
-                </div>
-                <div class="span4 form-group">
-                  <p><strong>Birthday</strong></p>
-                  <input type="text"name="birthday"placeholder="Your Birthday" data-msg="Please fill the black space" />
-                  <div class="validation"></div>
-
-                </div>
-                <div class="span12 margintop10 form-group">
-                  <p><strong>Address</strong></p>
-                  <input type="text" name="address" placeholder="Your Address" data-msg="Please fill the black space" />
-                  <div class="validation"></div>
-
-                  <input type="hidden" name="id4" value="<?php echo $_GET['id'];?>">
-                  <p class="text-center">
-                    <input class="btn btn-large btn-theme margintop10" type="submit" name="update"/>
-                  </p>
-                </div>
-            </form>
           </div>
         </div>
       </div>
